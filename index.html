@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Кликер О'лежи</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <h1 class="title">Кликер О'лежи</h1>
+        <div class="energy-display" id="energyDisplay">
+          <span class="energy-value" id="energyValue">0</span>
+          <span class="energy-label">Энергия</span>
+        </div>
+        <div class="per-second" id="perSecond">0 /sec</div>
+      </header>
+
+      <main class="layout">
+        <section class="clicker-area" id="clickerArea">
+           <button class="orb" id="orb" aria-label="Клик, чтобы собрать энергию">
+            <span class="orb-glow"></span>
+            <span class="orb-core">✦</span>
+          </button>
+          <div class="click-power" id="clickPower">+1 per click</div>
+          <div class="prestige-area" id="prestigeArea">
+            <div class="prestige-info" id="prestigeInfo"></div>
+            <button class="prestige-btn" id="prestigeBtn">Prestige</button>
+          </div>
+        </section>
+
+        <aside class="upgrade-panel">
+          <h2>Улучшения</h2>
+          <div class="upgrade-section">
+            <h3 class="section-title">Сила клика</h3>
+            <div id="clickUpgrades" class="upgrade-list"></div>
+          </div>
+          <div class="upgrade-section">
+            <h3 class="section-title">Генераторы</h3>
+            <div id="generators" class="upgrade-list"></div>
+          </div>
+        </aside>
+      </main>
+
+      <footer class="footer">
+        <button class="reset-btn" id="resetBtn">Сбросить игру</button>
+        <span class="save-status" id="saveStatus"></span>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
