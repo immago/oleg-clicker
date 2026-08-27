@@ -338,6 +338,11 @@ body {
   opacity: 0.6;
 }
 
+.footer-credits {
+  margin-left: auto;
+  opacity: 0.5;
+}
+
 /* Effects */
 .particle {
   position: fixed;
