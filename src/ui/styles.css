@@ -125,6 +125,26 @@ body {
   animation: spin 20s linear infinite;
 }
 
+.donate-banner {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent-2);
+  text-shadow: 0 0 16px var(--glow), 0 0 30px var(--glow);
+  animation: donate-glow 1.6s ease-in-out infinite, donate-bounce 2s ease-in-out infinite;
+  margin-bottom: 8px;
+}
+
+@keyframes donate-glow {
+  0%, 100% { color: var(--accent-2); text-shadow: 0 0 16px var(--glow); }
+  50% { color: #fff; text-shadow: 0 0 28px var(--glow), 0 0 48px var(--glow); }
+}
+
+@keyframes donate-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
 .click-power {
   font-size: 16px;
   color: var(--muted);
