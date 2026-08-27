@@ -46,8 +46,9 @@ export class Renderer {
     clickList: HTMLElement;
     genList: HTMLElement;
     tabBar: HTMLElement;
+    segmentKnob: HTMLElement;
     cardsContainer: HTMLElement;
-    categoryTabs: Record<string, HTMLButtonElement>;
+    categoryTabs: Record<string, HTMLElement>;
   };
 
   constructor() {
@@ -60,6 +61,7 @@ export class Renderer {
       clickList: requireEl('clickUpgrades'),
       genList: requireEl('generators'),
       tabBar: requireEl('categoryTabs'),
+      segmentKnob: requireEl('segmentKnob'),
       cardsContainer: requireEl('customizationCards'),
       categoryTabs: {},
     };
@@ -124,11 +126,10 @@ export class Renderer {
   /** Build customization category tabs and item cards once from config. */
   private buildCustomization(): void {
     for (const cat of CATEGORIES) {
-      const tab = document.createElement('button');
+      const tab = document.createElement('div');
       tab.className = 'cat-tab';
       tab.dataset.category = cat.id;
-      tab.type = 'button';
-      tab.textContent = `${cat.icon} ${cat.title}`;
+      tab.textContent = cat.title;
       tab.addEventListener('click', () => this.setActiveTab(cat.id));
       this.els.tabBar.appendChild(tab);
       this.els.categoryTabs[cat.id] = tab;
@@ -143,6 +144,9 @@ export class Renderer {
         this.createCustomizationCard(def, group);
       }
     }
+
+    this.els.tabBar.style.setProperty('--n', String(CATEGORIES.length));
+    this.setActiveTab(CATEGORIES[0].id);
   }
 
   private createCustomizationCard(def: CustomItem, group: HTMLElement): void {
@@ -183,9 +187,16 @@ export class Renderer {
 
   /** Switch the visible customization category. */
   setActiveTab(categoryId: string): void {
+    const index = CATEGORIES.findIndex((c) => c.id === categoryId);
     for (const [id, tab] of Object.entries(this.els.categoryTabs)) {
       tab.classList.toggle('active', id === categoryId);
     }
+
+    const count = CATEGORIES.length;
+    const innerWidth = this.els.tabBar.clientWidth - 6;
+    const segmentWidth = innerWidth / count;
+    const offset = 3 + segmentWidth * Math.max(0, index);
+    this.els.segmentKnob.style.setProperty('--dx', `${offset}px`);
     const groups = this.els.cardsContainer.querySelectorAll<HTMLElement>('.customization-group');
     for (const group of groups) {
       group.style.display = group.dataset.category === categoryId ? '' : 'none';
