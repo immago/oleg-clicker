@@ -1,9 +1,10 @@
 import { CATEGORIES, CUSTOMIZATIONS } from '../config/customization';
 import type { CustomItem } from '../config/customization';
-import { CURRENCY_NAME, UPGRADES } from '../config/upgrades';
+import { UPGRADES } from '../config/upgrades';
 import type { GameState } from '../types';
 import { clickPower, cost as computeCost, perSecond } from '../systems/economy';
 import { format } from '../systems/format';
+import { currencyLabel } from '../i18n/declension';
 
 interface UpgradeNode {
   id: string;
@@ -94,7 +95,7 @@ export class Renderer {
     footer.className = 'upgrade-footer';
     const cost = document.createElement('span');
     cost.className = 'upgrade-cost';
-    cost.textContent = `${format(def.baseCost)} ${CURRENCY_NAME}`;
+    cost.textContent = currencyLabel(def.baseCost);
     const btn = document.createElement('button');
     btn.className = 'buy-btn';
      btn.textContent = isGenerator ? 'Купить' : 'Улучшить';
@@ -159,12 +160,12 @@ export class Renderer {
 
     const price = document.createElement('div');
     price.className = 'customization-price';
-    price.textContent = `${format(def.cost)} ${CURRENCY_NAME}`;
+    price.textContent = currencyLabel(def.cost);
 
     const btn = document.createElement('button');
     btn.className = 'buy-btn customization-buy';
     btn.type = 'button';
-    btn.textContent = `Купить ${format(def.cost)} ${CURRENCY_NAME}`;
+    btn.textContent = `Купить ${currencyLabel(def.cost)}`;
 
     let prestige: HTMLElement | undefined;
     if (def.unlockPrestige > 0) {
@@ -225,7 +226,7 @@ export class Renderer {
       } else {
         node.price.style.display = '';
         const affordable = state.energy >= def.cost && state.prestigePoints >= def.unlockPrestige;
-        node.btn.textContent = `Купить ${format(def.cost)} ${CURRENCY_NAME}`;
+        node.btn.textContent = `Купить ${currencyLabel(def.cost)}`;
         node.btn.disabled = !affordable;
         node.card.classList.add('unowned');
         node.card.classList.remove('owned', 'active', 'equippable');
@@ -235,7 +236,7 @@ export class Renderer {
 
   /** Full frame update of counters, costs, affordability and progress bars. */
   render(state: GameState): void {
-    this.els.energyValue.textContent = `${format(state.energy)} ${CURRENCY_NAME}`;
+    this.els.energyValue.textContent = currencyLabel(state.energy);
     this.els.perSecond.textContent = `${format(perSecond(state.upgrades, state.prestigePoints))} / сек`;
     this.els.clickPower.textContent = `+${format(clickPower(state.upgrades, state.prestigePoints))} за клик`;
 
@@ -254,7 +255,7 @@ export class Renderer {
     const affordable = state.energy >= price;
 
     node.level.textContent = `Lv ${level}`;
-    node.cost.textContent = `${format(price)} ${CURRENCY_NAME}`;
+    node.cost.textContent = currencyLabel(price);
 
     if (def.kind === 'generator') {
       const output = def.perLevelPerSecond * level;

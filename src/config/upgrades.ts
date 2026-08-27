@@ -1,12 +1,11 @@
 import type { UpgradeDef } from '../types';
 
-export const CURRENCY_NAME = 'Энергия';
 
 export const UPGRADES: UpgradeDef[] = [
   {
     id: 'betterMouse',
     name: 'Усиленный курсор',
-    description: '+1 энергия за клик.',
+    description: '+1 за клик.',
     baseCost: 15,
     growth: 1.15,
     amount: 1,
@@ -16,7 +15,7 @@ export const UPGRADES: UpgradeDef[] = [
   {
     id: 'powerClick',
     name: 'Термоядерный тап',
-    description: '+5 энергия за клик.',
+    description: '+5 за клик.',
     baseCost: 250,
     growth: 1.16,
     amount: 5,
@@ -26,7 +25,7 @@ export const UPGRADES: UpgradeDef[] = [
   {
     id: 'cursor',
     name: 'Авто-клик',
-    description: '0.2 энергии / сек.',
+    description: '0.2 / сек.',
     baseCost: 15,
     growth: 1.15,
     amount: 0,
@@ -36,7 +35,7 @@ export const UPGRADES: UpgradeDef[] = [
   {
     id: 'drone',
     name: 'Дрон-сборщик',
-    description: '2 энергии / сек.',
+    description: '2 / сек.',
     baseCost: 100,
     growth: 1.15,
     amount: 0,
@@ -46,7 +45,7 @@ export const UPGRADES: UpgradeDef[] = [
   {
     id: 'reactor',
     name: 'Плазменный реактор',
-    description: '20 энергии / сек.',
+    description: '20 / сек.',
     baseCost: 1_100,
     growth: 1.15,
     amount: 0,
@@ -56,7 +55,7 @@ export const UPGRADES: UpgradeDef[] = [
   {
     id: 'singularity',
     name: 'Мини сингулярность',
-    description: '200 энергии / сек.',
+    description: '200 / сек.',
     baseCost: 12_000,
     growth: 1.15,
     amount: 0,
