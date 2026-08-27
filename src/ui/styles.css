@@ -583,6 +583,45 @@ body[data-button-theme="neon"] .buy-btn {
   color: #03121a;
 }
 
+/* Orb button follows the selected button theme */
+body[data-button-theme="cyberpink"] .orb {
+  background: radial-gradient(circle at 35% 30%, #ffb3dc, #ff2d95 55%, #6a0038 100%);
+  box-shadow: 0 0 60px rgba(255, 45, 149, 0.7), inset 0 0 40px rgba(0, 0, 0, 0.4);
+}
+body[data-button-theme="cyberpink"] .orb-glow {
+  background: radial-gradient(circle, rgba(255, 45, 149, 0.7), transparent 70%);
+}
+
+body[data-button-theme="matrix"] .orb {
+  background: radial-gradient(circle at 35% 30%, #aaffcc, #00ff88 55%, #003d1f 100%);
+  box-shadow: 0 0 60px rgba(0, 255, 136, 0.7), inset 0 0 40px rgba(0, 0, 0, 0.4);
+}
+body[data-button-theme="matrix"] .orb-glow {
+  background: radial-gradient(circle, rgba(0, 255, 136, 0.7), transparent 70%);
+}
+
+body[data-button-theme="gold"] .orb {
+  background: radial-gradient(circle at 35% 30%, #ffe98a, #ffd700 55%, #7a4d00 100%);
+  box-shadow: 0 0 60px rgba(255, 215, 0, 0.7), inset 0 0 40px rgba(0, 0, 0, 0.4);
+}
+body[data-button-theme="gold"] .orb-glow {
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.7), transparent 70%);
+}
+
+body[data-button-theme="neon"] .orb {
+  background: radial-gradient(circle at 35% 30%, #b6ffd9, #46e5a0 55%, #125a7a 100%);
+  box-shadow: 0 0 60px rgba(70, 229, 160, 0.7), inset 0 0 40px rgba(0, 0, 0, 0.4);
+}
+body[data-button-theme="neon"] .orb-glow {
+  background: radial-gradient(circle, rgba(70, 229, 160, 0.7), transparent 70%);
+}
+
+/* Disabled state for themed buttons (higher specificity than the theme rule) */
+body[data-button-theme] .buy-btn:disabled {
+  background: #2a2a44;
+  color: var(--muted);
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--accent) var(--panel);
