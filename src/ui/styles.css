@@ -547,3 +547,33 @@ body[data-button-theme="neon"] .buy-btn {
   background: linear-gradient(90deg, #46e5a0, #2bb8ff);
   color: #03121a;
 }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--panel);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--panel);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  border-radius: 5px;
+  border: 2px solid var(--panel);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--accent-2), var(--accent));
+  box-shadow: 0 0 10px var(--glow);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--panel);
+}
