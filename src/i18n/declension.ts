@@ -20,5 +20,13 @@ export const CURRENCY_FORMS: DeclensionForms = ['тугрик', 'тугрика'
 
 /** Format an amount together with the declined currency label. */
 export function currencyLabel(amount: number): string {
-  return `${format(Math.abs(amount))} ${decline(amount, CURRENCY_FORMS)}`;
+  const text = format(Math.abs(amount));
+  return `${text} ${decline(abbreviatedToForm(text, Math.abs(amount)), CURRENCY_FORMS)}`;
+}
+
+function abbreviatedToForm(text: string, fallback: number): number {
+  if (text.includes('e')) return Math.floor(fallback);
+  const body = text.replace(/[A-Za-z]+$/, '').replace('.', '');
+  const parsed = parseInt(body, 10);
+  return Number.isNaN(parsed) ? Math.floor(fallback) : parsed;
 }
