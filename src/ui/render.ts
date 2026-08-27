@@ -5,6 +5,7 @@ import type { GameState } from '../types';
 import { clickPower, cost as computeCost, perSecond } from '../systems/economy';
 import { format } from '../systems/format';
 import { currencyLabel } from '../i18n/declension';
+import { formatTemplate, ru } from '../i18n/ru';
 
 interface UpgradeNode {
   id: string;
@@ -84,7 +85,7 @@ export class Renderer {
     name.textContent = def.name;
     const level = document.createElement('span');
     level.className = 'upgrade-level';
-    level.textContent = 'Ур. 0';
+    level.textContent = `${ru.ui.levelPrefix} 0`;
     header.append(name, level);
 
     const desc = document.createElement('div');
@@ -98,7 +99,7 @@ export class Renderer {
     cost.textContent = currencyLabel(def.baseCost);
     const btn = document.createElement('button');
     btn.className = 'buy-btn';
-     btn.textContent = isGenerator ? 'Купить' : 'Улучшить';
+     btn.textContent = isGenerator ? ru.ui.buy : ru.ui.upgrade;
     footer.append(cost, btn);
 
     const bar = document.createElement('div');
@@ -165,7 +166,7 @@ export class Renderer {
     const btn = document.createElement('button');
     btn.className = 'buy-btn customization-buy';
     btn.type = 'button';
-    btn.textContent = `Купить ${currencyLabel(def.cost)}`;
+    btn.textContent = formatTemplate(ru.ui.buyWithCurrency, { cost: currencyLabel(def.cost) });
 
     let prestige: HTMLElement | undefined;
     if (def.unlockPrestige > 0) {
@@ -200,11 +201,11 @@ export class Renderer {
 
       if (node.prestige) {
         if (state.prestigePoints >= def.unlockPrestige) {
-          node.prestige.textContent = `Престеж ${def.unlockPrestige}`;
+          node.prestige.textContent = formatTemplate(ru.ui.prestigeReady, { n: def.unlockPrestige });
           node.prestige.classList.remove('locked');
           node.prestige.classList.add('ready');
         } else {
-          node.prestige.textContent = `Нужен престиж ${def.unlockPrestige}`;
+          node.prestige.textContent = formatTemplate(ru.ui.prestigeLocked, { n: def.unlockPrestige });
           node.prestige.classList.add('locked');
           node.prestige.classList.remove('ready');
         }
@@ -213,12 +214,12 @@ export class Renderer {
       if (owned) {
         node.price.style.display = 'none';
         if (active) {
-          node.btn.textContent = 'Надето';
+          node.btn.textContent = ru.ui.equipped;
           node.btn.disabled = true;
           node.card.classList.add('owned', 'active');
           node.card.classList.remove('equippable');
         } else {
-          node.btn.textContent = 'Экипировать';
+          node.btn.textContent = ru.ui.equip;
           node.btn.disabled = false;
           node.card.classList.add('owned', 'equippable');
           node.card.classList.remove('active');
@@ -226,7 +227,7 @@ export class Renderer {
       } else {
         node.price.style.display = '';
         const affordable = state.energy >= def.cost && state.prestigePoints >= def.unlockPrestige;
-        node.btn.textContent = `Купить ${currencyLabel(def.cost)}`;
+        node.btn.textContent = formatTemplate(ru.ui.buyWithCurrency, { cost: currencyLabel(def.cost) });
         node.btn.disabled = !affordable;
         node.card.classList.add('unowned');
         node.card.classList.remove('owned', 'active', 'equippable');
@@ -237,8 +238,8 @@ export class Renderer {
   /** Full frame update of counters, costs, affordability and progress bars. */
   render(state: GameState): void {
     this.els.energyValue.textContent = currencyLabel(state.energy);
-    this.els.perSecond.textContent = `${format(perSecond(state.upgrades, state.prestigePoints))} / сек`;
-    this.els.clickPower.textContent = `+${format(clickPower(state.upgrades, state.prestigePoints))} за клик`;
+    this.els.perSecond.textContent = `${format(perSecond(state.upgrades, state.prestigePoints))}${ru.ui.perSecondSuffix}`;
+    this.els.clickPower.textContent = `+${format(clickPower(state.upgrades, state.prestigePoints))}${ru.ui.clickSuffix}`;
 
     for (const node of Object.values(this.nodes)) {
       this.renderNode(node, state);
@@ -260,7 +261,7 @@ export class Renderer {
     if (def.kind === 'generator') {
       const output = def.perLevelPerSecond * level;
       node.desc.textContent = level > 0
-        ? `${format(output)} / сек всего`
+        ? `${format(output)}${ru.ui.perSecondSuffix}${ru.ui.totalSuffix}`
         : def.description;
     }
 
@@ -279,10 +280,10 @@ export class Renderer {
   private renderPrestige(state: GameState): void {
     const mult = 1 + state.prestigePoints * 0.01;
     if (state.totalEnergyEarned >= 1_000_000) {
-      this.els.prestigeInfo.textContent = `×${mult.toFixed(2)} постоянный множитель`;
+      this.els.prestigeInfo.textContent = formatTemplate(ru.ui.prestigeInfoReady, { mult: mult.toFixed(2) });
       this.els.prestigeBtn.disabled = false;
     } else {
-      this.els.prestigeInfo.textContent = `Наберите 1M энергии за игру для Престижа (×${mult.toFixed(2)})`;
+      this.els.prestigeInfo.textContent = formatTemplate(ru.ui.prestigeInfoLocked, { mult: mult.toFixed(2) });
       this.els.prestigeBtn.disabled = true;
     }
   }

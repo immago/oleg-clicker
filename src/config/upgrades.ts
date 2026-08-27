@@ -1,11 +1,12 @@
 import type { UpgradeDef } from '../types';
+import { ru } from '../i18n/ru';
 
 
 export const UPGRADES: UpgradeDef[] = [
   {
     id: 'betterMouse',
-    name: 'Усиленный курсор',
-    description: '+1 за клик.',
+    name: ru.upgrades.name.betterMouse,
+    description: ru.upgrades.description.betterMouse,
     baseCost: 15,
     growth: 1.15,
     amount: 1,
@@ -14,8 +15,8 @@ export const UPGRADES: UpgradeDef[] = [
   },
   {
     id: 'powerClick',
-    name: 'Термоядерный тап',
-    description: '+5 за клик.',
+    name: ru.upgrades.name.powerClick,
+    description: ru.upgrades.description.powerClick,
     baseCost: 250,
     growth: 1.16,
     amount: 5,
@@ -24,8 +25,8 @@ export const UPGRADES: UpgradeDef[] = [
   },
   {
     id: 'cursor',
-    name: 'Авто-клик',
-    description: '0.2 / сек.',
+    name: ru.upgrades.name.cursor,
+    description: ru.upgrades.description.cursor,
     baseCost: 15,
     growth: 1.15,
     amount: 0,
@@ -34,8 +35,8 @@ export const UPGRADES: UpgradeDef[] = [
   },
   {
     id: 'drone',
-    name: 'Дрон-сборщик',
-    description: '2 / сек.',
+    name: ru.upgrades.name.drone,
+    description: ru.upgrades.description.drone,
     baseCost: 100,
     growth: 1.15,
     amount: 0,
@@ -44,8 +45,8 @@ export const UPGRADES: UpgradeDef[] = [
   },
   {
     id: 'reactor',
-    name: 'Плазменный реактор',
-    description: '20 / сек.',
+    name: ru.upgrades.name.reactor,
+    description: ru.upgrades.description.reactor,
     baseCost: 1_100,
     growth: 1.15,
     amount: 0,
@@ -54,8 +55,8 @@ export const UPGRADES: UpgradeDef[] = [
   },
   {
     id: 'singularity',
-    name: 'Мини сингулярность',
-    description: '200 / сек.',
+    name: ru.upgrades.name.singularity,
+    description: ru.upgrades.description.singularity,
     baseCost: 12_000,
     growth: 1.15,
     amount: 0,

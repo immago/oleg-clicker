@@ -1,0 +1,107 @@
+import { CURRENCY_FORMS } from './declension';
+
+/** Replace `{key}` placeholders in a template string with values. */
+export function formatTemplate(template: string, vars: Record<string, string | number>): string {
+  return template.replace(/\{(\w+)\}/g, (_, key: string) => String(vars[key]));
+}
+
+export const ru = {
+  currencyForms: CURRENCY_FORMS,
+  ui: {
+    levelPrefix: 'Ур.',
+    buy: 'Купить',
+    upgrade: 'Улучшить',
+    equipped: 'Надето',
+    equip: 'Экипировать',
+    perSecondSuffix: '/ сек',
+    totalSuffix: ' всего',
+    clickSuffix: 'за клик',
+    buyWithCurrency: 'Купить {cost}',
+    prestigeReady: 'Престеж {n}',
+    prestigeLocked: 'Нужен престиж {n}',
+    prestigeInfoReady: '×{mult} постоянный множитель',
+    prestigeInfoLocked: 'Наберите 1M энергии за игру для Престижа (×{mult})',
+  },
+  categories: {
+    cursor: 'Курсор',
+    buttons: 'Кнопки',
+    trail: 'Шлейф',
+    sounds: 'Звуки',
+  },
+  upgrades: {
+    name: {
+      betterMouse: 'Усиленный курсор',
+      powerClick: 'Термоядерный тап',
+      cursor: 'Авто-клик',
+      drone: 'Дрон-сборщик',
+      reactor: 'Плазменный реактор',
+      singularity: 'Мини сингулярность',
+    },
+    description: {
+      betterMouse: '+1 за клик.',
+      powerClick: '+5 за клик.',
+      cursor: '0.2 / сек.',
+      drone: '2 / сек.',
+      reactor: '20 / сек.',
+      singularity: '200 / сек.',
+    },
+  },
+  customization: {
+    name: {
+      'cursor-default': 'Курсор по умолчанию',
+      'cursor-lime': 'Лайм',
+      'cursor-pink': 'Роза',
+      'cursor-purple': 'Индиго',
+      'cursor-drawing': 'Карандаш',
+      'cursor-face': 'Эможи',
+      'cursor-hand': 'Указка',
+      'cursor-stichy': 'Стежок',
+      'cursor-bunny': 'Кролик',
+      'cursor-ducks': 'Утки',
+      'cursor-fox': 'Лиса',
+      'cursor-secretary': 'Секретарь',
+      'buttons-default': 'Кнопки по умолчанию',
+      'buttons-neon': 'Неоновые кнопки',
+      'buttons-gold': 'Золотые кнопки',
+      'trail-default': 'Шлейф по умолчанию',
+      'trail-ember': 'Угли',
+      'trail-rainbow': 'Радуга',
+      'sounds-classic': 'Классика',
+      'sounds-retro': 'Ретро',
+      'sounds-sci-fi': 'Научная фантастика',
+    },
+    description: {
+      'cursor-default': 'Стандартный курсор системы.',
+      'cursor-lime': 'Курсор «Лайм»',
+      'cursor-pink': 'Курсор «Роза»',
+      'cursor-purple': 'Курсор «Индиго»',
+      'cursor-drawing': 'Курсор «Карандаш»',
+      'cursor-face': 'Курсор «Эможи»',
+      'cursor-hand': 'Курсор «Указка»',
+      'cursor-stichy': 'Курсор «Стежок»',
+      'cursor-bunny': 'Курсор «Кролик»',
+      'cursor-ducks': 'Курсор «Утки»',
+      'cursor-fox': 'Курсор «Лиса»',
+      'cursor-secretary': 'Курсор «Секретарь»',
+      'buttons-default': 'Базовый стиль кнопок.',
+      'buttons-neon': 'Кнопки с неоновой подсветкой.',
+      'buttons-gold': 'Роскошные золотые кнопки.',
+      'trail-default': 'Базовые белые частицы.',
+      'trail-ember': 'Искорки горящих угля.',
+      'trail-rainbow': 'Радужные частицы за кликом.',
+      'sounds-classic': 'Обычные тона игры.',
+      'sounds-retro': '8-битные квадратные тона.',
+      'sounds-sci-fi': 'Высокочастотные тоны будущего.',
+    },
+  },
+  toast: {
+    offlineGain: 'С возвращением! Вы заработали {amount} за время отсутствия.',
+    prestige: 'Престиж! Постоянный множитель теперь ×{mult}',
+    confirmReset: 'Сбросить весь прогресс? это нельзя отменить.',
+    resetDone: 'Игра сброшена.',
+    equipped: 'Скин экипирован.',
+    bought: 'Кастомизация куплена!',
+  },
+} as const;
+
+export type RuLocale = typeof ru;

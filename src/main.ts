@@ -10,6 +10,7 @@ import {
   spawnClickBurst,
   spawnFloatingText,
 } from './ui/effects';
+import { formatTemplate, ru } from './i18n/ru';
 
 const STEP = 1 / 60;
 const MAX_FRAME = 0.25;
@@ -23,7 +24,7 @@ function boot(): void {
   if (loaded) {
     game = new Game(loaded.state);
     if (loaded.offlineGain > 0) {
-      showToast(`С возвращением! Вы заработали ${formatNumber(loaded.offlineGain)} за время отсутствия.`);
+      showToast(formatTemplate(ru.toast.offlineGain, { amount: formatNumber(loaded.offlineGain) }));
     }
   } else {
     game = new Game();
@@ -53,18 +54,18 @@ function boot(): void {
 
   document.getElementById('prestigeBtn')!.addEventListener('click', () => {
     if (game.doPrestige()) {
-      showToast(`Престиж! Постоянный множитель теперь ×${(1 + game.state.prestigePoints * 0.01).toFixed(2)}`);
+      showToast(formatTemplate(ru.toast.prestige, { mult: (1 + game.state.prestigePoints * 0.01).toFixed(2) }));
       renderer.render(game.state);
     }
   });
 
   document.getElementById('resetBtn')!.addEventListener('click', () => {
-    if (!confirm('Сбросить весь прогресс? это нельзя отменить.')) return;
+    if (!confirm(ru.toast.confirmReset)) return;
     game.reset();
     renderer.render(game.state);
     applyCustomization(game.state.customization);
     scheduleSave(game.state, true);
-    showToast('Игра сброшена.');
+    showToast(ru.toast.resetDone);
   });
 
   document.getElementById('categoryTabs')!.addEventListener('click', (event) => {
@@ -83,10 +84,10 @@ function boot(): void {
     if (game.buyCustom(id)) {
       if (wasOwned) {
         playClickSound();
-        showToast('Скин экипирован.');
+        showToast(ru.toast.equipped);
       } else {
         playBuySound();
-        showToast('Кастомизация куплена!');
+        showToast(ru.toast.bought);
       }
       renderer.render(game.state);
       applyCustomization(game.state.customization);

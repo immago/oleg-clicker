@@ -28,25 +28,25 @@ describe('decline', () => {
   });
 
   it('matches the shipped currency forms', () => {
-    expect(CURRENCY_FORMS).toEqual(['энергия', 'энергии', 'энергий']);
+    expect(CURRENCY_FORMS).toEqual(['тугрик', 'тугрика', 'тугриков']);
   });
 });
 
 describe('currencyLabel', () => {
   it('declines for one energy', () => {
-    expect(currencyLabel(1)).toBe('1 энергия');
+    expect(currencyLabel(1)).toBe('1 тугрик');
   });
 
   it('declines for a few energies', () => {
-    expect(currencyLabel(3)).toBe('3 энергии');
+    expect(currencyLabel(3)).toBe('3 тугрика');
   });
 
   it('declines for many energies', () => {
-    expect(currencyLabel(15)).toBe('15 энергий');
+    expect(currencyLabel(15)).toBe('15 тугриков');
   });
 
   it('combines compact formatting with the correct form', () => {
-    expect(currencyLabel(1234)).toBe('1.23K энергии');
-    expect(currencyLabel(500_000)).toBe('500K энергий');
+    expect(currencyLabel(1234)).toBe('1.23K тугрика');
+    expect(currencyLabel(500_000)).toBe('500K тугриков');
   });
 });

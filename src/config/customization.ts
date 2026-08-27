@@ -1,4 +1,5 @@
 import type { CustomCategory, CustomizationState } from '../types';
+import { ru } from '../i18n/ru';
 
 export interface SoundPreset {
   freq: number;
@@ -26,17 +27,17 @@ const TIER_PRICING = {
   3: { cost: 10_000_000, prestige: 3 },
 } as const;
 
-type CursorSpec = { id: string; name: string; asset: string; hotspotX: number; hotspotY: number; tier: number };
+type CursorSpec = { id: string; asset: string; hotspotX: number; hotspotY: number; tier: number };
 
 function makeCursor(spec: CursorSpec): CustomItem {
   const pricing = TIER_PRICING[spec.tier as keyof typeof TIER_PRICING] ?? TIER_PRICING[1];
   return {
     id: spec.id,
-    name: spec.name,
+    name: ru.customization.name[spec.id as keyof typeof ru.customization.name],
     category: 'cursor',
     cost: pricing.cost,
     unlockPrestige: pricing.prestige,
-    description: `Курсор «${spec.name}»`,
+    description: ru.customization.description[spec.id as keyof typeof ru.customization.description],
     asset: spec.asset,
     hotspotX: spec.hotspotX,
     hotspotY: spec.hotspotY,
@@ -53,18 +54,17 @@ export type CustomItem =
 export const CUSTOMIZATIONS: CustomItem[] = [
   {
     id: 'cursor-default',
-    name: 'Курсор по умолчанию',
+    name: ru.customization.name['cursor-default'],
     category: 'cursor',
     cost: 0,
     unlockPrestige: 0,
-    description: 'Стандартный курсор системы.',
+    description: ru.customization.description['cursor-default'],
     asset: '',
     hotspotX: 0,
     hotspotY: 0,
   },
   makeCursor({
     id: 'cursor-lime',
-    name: 'Лайм',
     tier: 1,
     asset: '/assets/cursors/1_lime.png',
     hotspotX: 0,
@@ -72,7 +72,6 @@ export const CUSTOMIZATIONS: CustomItem[] = [
   }),
   makeCursor({
     id: 'cursor-pink',
-    name: 'Роза',
     tier: 1,
     asset: '/assets/cursors/1_pink.png',
     hotspotX: 0,
@@ -80,7 +79,6 @@ export const CUSTOMIZATIONS: CustomItem[] = [
   }),
   makeCursor({
     id: 'cursor-purple',
-    name: 'Индиго',
     tier: 1,
     asset: '/assets/cursors/1_purple.png',
     hotspotX: 0,
@@ -88,7 +86,6 @@ export const CUSTOMIZATIONS: CustomItem[] = [
   }),
   makeCursor({
     id: 'cursor-drawing',
-    name: 'Карандаш',
     tier: 2,
     asset: '/assets/cursors/2_drawing.png',
     hotspotX: 0,
@@ -96,7 +93,6 @@ export const CUSTOMIZATIONS: CustomItem[] = [
   }),
   makeCursor({
     id: 'cursor-face',
-    name: 'Эможи',
     tier: 2,
     asset: '/assets/cursors/2_face.png',
     hotspotX: 0,
@@ -104,7 +100,6 @@ export const CUSTOMIZATIONS: CustomItem[] = [
   }),
   makeCursor({
     id: 'cursor-hand',
-    name: 'Указка',
     tier: 2,
     asset: '/assets/cursors/2_hand.png',
     hotspotX: 16,
@@ -112,7 +107,6 @@ export const CUSTOMIZATIONS: CustomItem[] = [
   }),
   makeCursor({
     id: 'cursor-stichy',
-    name: 'Стежок',
     tier: 2,
     asset: '/assets/cursors/2_stichy.png',
     hotspotX: 0,
@@ -120,7 +114,6 @@ export const CUSTOMIZATIONS: CustomItem[] = [
   }),
   makeCursor({
     id: 'cursor-bunny',
-    name: 'Кролик',
     tier: 3,
     asset: '/assets/cursors/3_bunny.png',
     hotspotX: 0,
@@ -128,7 +121,6 @@ export const CUSTOMIZATIONS: CustomItem[] = [
   }),
   makeCursor({
     id: 'cursor-ducks',
-    name: 'Утки',
     tier: 3,
     asset: '/assets/cursors/3_ducks.png',
     hotspotX: 0,
@@ -136,7 +128,6 @@ export const CUSTOMIZATIONS: CustomItem[] = [
   }),
   makeCursor({
     id: 'cursor-fox',
-    name: 'Лиса',
     tier: 3,
     asset: '/assets/cursors/3_fox.png',
     hotspotX: 0,
@@ -144,7 +135,6 @@ export const CUSTOMIZATIONS: CustomItem[] = [
   }),
   makeCursor({
     id: 'cursor-secretary',
-    name: 'Секретарь',
     tier: 3,
     asset: '/assets/cursors/3_secretary.png',
     hotspotX: 0,
@@ -152,91 +142,91 @@ export const CUSTOMIZATIONS: CustomItem[] = [
   }),
   {
     id: 'buttons-default',
-    name: 'Кнопки по умолчанию',
+    name: ru.customization.name['buttons-default'],
     category: 'buttons',
     cost: 0,
     unlockPrestige: 0,
-    description: 'Базовый стиль кнопок.',
+    description: ru.customization.description['buttons-default'],
     theme: 'default',
   },
   {
     id: 'buttons-neon',
-    name: 'Неоновые кнопки',
+    name: ru.customization.name['buttons-neon'],
     category: 'buttons',
     cost: 1_000,
     unlockPrestige: 0,
-    description: 'Кнопки с неоновой подсветкой.',
+    description: ru.customization.description['buttons-neon'],
     theme: 'neon',
   },
   {
     id: 'buttons-gold',
-    name: 'Золотые кнопки',
+    name: ru.customization.name['buttons-gold'],
     category: 'buttons',
     cost: 50_000,
     unlockPrestige: 15,
-    description: 'Роскошные золотые кнопки.',
+    description: ru.customization.description['buttons-gold'],
     theme: 'gold',
   },
   {
     id: 'trail-default',
-    name: 'Шлейф по умолчанию',
+    name: ru.customization.name['trail-default'],
     category: 'trail',
     cost: 0,
     unlockPrestige: 0,
-    description: 'Базовые белые частицы.',
+    description: ru.customization.description['trail-default'],
     color: '#ffffff',
     shape: 'circle',
     size: 8,
   },
   {
     id: 'trail-ember',
-    name: 'Угли',
+    name: ru.customization.name['trail-ember'],
     category: 'trail',
     cost: 3_000,
     unlockPrestige: 0,
-    description: 'Искорки горящих угля.',
+    description: ru.customization.description['trail-ember'],
     color: '#ff7a2f',
     shape: 'circle',
     size: 10,
   },
   {
     id: 'trail-rainbow',
-    name: 'Радуга',
+    name: ru.customization.name['trail-rainbow'],
     category: 'trail',
     cost: 80_000,
     unlockPrestige: 25,
-    description: 'Радужные частицы за кликом.',
+    description: ru.customization.description['trail-rainbow'],
     color: '#ff00ff',
     shape: 'star',
     size: 12,
   },
   {
     id: 'sounds-classic',
-    name: 'Классика',
+    name: ru.customization.name['sounds-classic'],
     category: 'sounds',
     cost: 0,
     unlockPrestige: 0,
-    description: 'Обычные тона игры.',
+    description: ru.customization.description['sounds-classic'],
     click: { freq: 440, duration: 0.08, type: 'sine', volume: 0.15 },
     buy: { freq: 660, duration: 0.12, type: 'triangle', volume: 0.15 },
   },
   {
     id: 'sounds-retro',
-    name: 'Ретро',
+    name: ru.customization.name['sounds-retro'],
     category: 'sounds',
     cost: 1_500,
     unlockPrestige: 0,
-    description: '8-битные квадратные тона.',
+    description: ru.customization.description['sounds-retro'],
     click: { freq: 220, duration: 0.06, type: 'square', volume: 0.1 },
     buy: { freq: 330, duration: 0.1, type: 'square', volume: 0.1 },
   },
   {
     id: 'sounds-sci-fi',
-    name: 'Научная фантастика',
+    name: ru.customization.name['sounds-sci-fi'],
     category: 'sounds',
     cost: 40_000,
     unlockPrestige: 12,
-    description: 'Высокочастотные тоны будущего.',
+    description: ru.customization.description['sounds-sci-fi'],
     click: { freq: 880, duration: 0.1, type: 'sawtooth', volume: 0.1 },
     buy: { freq: 1_200, duration: 0.15, type: 'sine', volume: 0.12 },
   },
@@ -251,10 +241,10 @@ export interface CategoryMeta {
 }
 
 export const CATEGORIES: CategoryMeta[] = [
-  { id: 'cursor', icon: '🖱️', title: 'Курсор' },
-  { id: 'buttons', icon: '🔘', title: 'Кнопки' },
-  { id: 'trail', icon: '✨', title: 'Шлейф' },
-  { id: 'sounds', icon: '🎵', title: 'Звуки' },
+  { id: 'cursor', icon: '🖱️', title: ru.categories.cursor },
+  { id: 'buttons', icon: '🔘', title: ru.categories.buttons },
+  { id: 'trail', icon: '✨', title: ru.categories.trail },
+  { id: 'sounds', icon: '🎵', title: ru.categories.sounds },
 ];
 
 export function createDefaultCustomization(): CustomizationState {
