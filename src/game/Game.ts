@@ -1,5 +1,6 @@
+import { createDefaultCustomization, getCustomById } from '../config/customization';
 import { PRESTIGE_CONFIG } from '../config/upgrades';
-import type { GameState } from '../types';
+import type { CustomCategory, GameState } from '../types';
 import { applyTick, clickPower, prestigeGain } from '../systems/economy';
 import { UpgradeManager } from './Upgrade';
 
@@ -11,6 +12,7 @@ export function createInitialState(): GameState {
     upgrades: {},
     prestigePoints: 0,
     lastSaved: Date.now(),
+    customization: createDefaultCustomization(),
   };
 }
 
@@ -33,6 +35,41 @@ export class Game {
 
   buyUpgrade(id: string): boolean {
     return this.upgrades.buy(this.state, id);
+  }
+
+  canBuyCustom(id: string): boolean {
+    const item = getCustomById(id);
+    if (!item) return false;
+    return this.state.energy >= item.cost && this.state.prestigePoints >= item.unlockPrestige;
+  }
+
+  isUnlocked(id: string): boolean {
+    return !!this.state.customization.unlocked[id];
+  }
+
+  activeSkin(category: CustomCategory): string {
+    return this.state.customization.active[category];
+  }
+
+  /** Purchase a customization item once. Energy is spent; ownership is permanent. */
+  buyCustom(id: string): boolean {
+    if (!this.canBuyCustom(id)) return false;
+    const item = getCustomById(id);
+    if (!item) return false;
+    this.state.energy -= item.cost;
+    this.state.customization.unlocked[id] = true;
+    this.state.customization.active[item.category] = id;
+    return true;
+  }
+
+  /** Equip an already-owned (or free) customization. Returns true only on change. */
+  equipCustom(category: CustomCategory, id: string): boolean {
+    if (this.state.customization.active[category] === id) return false;
+    const item = getCustomById(id);
+    if (!item) return false;
+    if (!(this.isUnlocked(id) || item.cost === 0)) return false;
+    this.state.customization.active[category] = id;
+    return true;
   }
 
   /** Run one simulation tick of `dt` seconds. */

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { createDefaultCustomization } from '../config/customization';
 import { getUpgradeById } from '../config/upgrades';
 import type { GameState } from '../types';
 import {
@@ -67,6 +68,7 @@ describe('applyTick', () => {
     upgrades: levels({ cursor: 5 }), // 0.2 * 5 = 1/sec
     prestigePoints: 0,
     lastSaved: Date.now(),
+    customization: createDefaultCustomization(),
   };
 
   it('adds perSecond * dt to energy and totals', () => {

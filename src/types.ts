@@ -14,6 +14,13 @@ export interface UpgradeDef {
   perLevelPerSecond: number;
 }
 
+export type CustomCategory = 'cursor' | 'buttons' | 'trail' | 'sounds';
+
+export interface CustomizationState {
+  unlocked: Record<string, boolean>; // skinId -> purchased (one-time, permanent)
+  active: Record<CustomCategory, string>; // category -> active skinId
+}
+
 export interface SaveData {
   energy: number;
   totalEnergyEarned: number;
@@ -21,6 +28,7 @@ export interface SaveData {
   upgrades: Record<string, number>;
   prestigePoints: number;
   lastSaved: number;
+  customization?: CustomizationState;
 }
 
 export interface GameState {
@@ -31,4 +39,5 @@ export interface GameState {
   upgrades: Record<string, number>;
   prestigePoints: number;
   lastSaved: number;
+  customization: CustomizationState;
 }

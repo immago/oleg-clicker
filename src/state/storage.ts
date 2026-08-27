@@ -1,12 +1,16 @@
 import { OFFLINE_CAP_SECONDS, SAVE_KEY } from '../config/upgrades';
 import type { GameState, SaveData } from '../types';
 import { applyTick } from '../systems/economy';
+import { createDefaultCustomization, DEFAULT_CATEGORIES, getCustomById, itemsByCategory } from '../config/customization';
+import type { CustomizationState } from '../types';
 
 /** Structural validation of raw saved data. Returns true only for well-formed saves. */
 export function validateSaveData(data: unknown): data is SaveData {
   if (typeof data !== 'object' || data === null) return false;
   const d = data as Record<string, unknown>;
   const isNum = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
+  const isValidCustomization = (v: unknown): boolean =>
+    v === undefined || (typeof v === 'object' && v !== null);
   return (
     isNum(d.energy) &&
     isNum(d.totalEnergyEarned) &&
@@ -14,8 +18,41 @@ export function validateSaveData(data: unknown): data is SaveData {
     isNum(d.prestigePoints) &&
     isNum(d.lastSaved) &&
     typeof d.upgrades === 'object' &&
-    d.upgrades !== null
+    d.upgrades !== null &&
+    isValidCustomization(d.customization)
   );
+}
+
+function sanitizeUnlocked(raw: unknown): Record<string, boolean> {
+  const result: Record<string, boolean> = {};
+  if (typeof raw !== 'object' || raw === null) return result;
+  for (const [key, value] of Object.entries(raw as Record<string, unknown>)) {
+    if (value === true) result[key] = true;
+  }
+  return result;
+}
+
+/** Restore a customization state from raw data, falling back to defaults when missing. */
+function sanitizeCustomization(raw: unknown): CustomizationState {
+  const base = createDefaultCustomization();
+  if (typeof raw !== 'object' || raw === null) return base;
+  const r = raw as Record<string, unknown>;
+  const unlocked = sanitizeUnlocked(r.unlocked);
+  const active = { ...base.active };
+  const rawActive = r.active;
+  for (const category of DEFAULT_CATEGORIES) {
+    const value =
+      rawActive && typeof rawActive === 'object'
+        ? (rawActive as Record<string, unknown>)[category]
+        : undefined;
+    if (typeof value === 'string') {
+      active[category] = value;
+    } else if (!getCustomById(active[category])) {
+      const items = itemsByCategory(category);
+      if (items.length > 0) active[category] = items[0].id;
+    }
+  }
+  return { unlocked, active };
 }
 
 function sanitizeUpgrades(raw: unknown): Record<string, number> {
@@ -46,6 +83,10 @@ export function saveNow(state: GameState): void {
     upgrades: { ...state.upgrades },
     prestigePoints: state.prestigePoints,
     lastSaved: state.lastSaved,
+    customization: {
+      unlocked: { ...state.customization.unlocked },
+      active: { ...state.customization.active },
+    },
   };
   localStorage.setItem(SAVE_KEY, JSON.stringify(payload));
 }
@@ -106,6 +147,7 @@ export function loadGame(): LoadedGame | null {
     upgrades: sanitizeUpgrades(data.upgrades),
     prestigePoints: data.prestigePoints,
     lastSaved: now,
+    customization: sanitizeCustomization(data.customization),
   };
 
   const offline = computeOfflineGain(state, elapsedSeconds);

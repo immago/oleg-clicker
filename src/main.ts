@@ -3,6 +3,7 @@ import { Game } from './game/Game';
 import { loadGame, scheduleSave } from './state/storage';
 import { Renderer } from './ui/render';
 import {
+  applyCustomization,
   floatingTextFor,
   playClickSound,
   playBuySound,
@@ -27,6 +28,8 @@ function boot(): void {
   } else {
     game = new Game();
   }
+
+  applyCustomization(game.state.customization);
 
   const orb = document.getElementById('orb') as HTMLButtonElement;
   orb.addEventListener('click', (event) => {
@@ -56,11 +59,38 @@ function boot(): void {
   });
 
   document.getElementById('resetBtn')!.addEventListener('click', () => {
-    if (!confirm('Сбросить весь прогресс? Это нельзя отменить.')) return;
+    if (!confirm('Сбросить весь прогресс? это нельзя отменить.')) return;
     game.reset();
     renderer.render(game.state);
+    applyCustomization(game.state.customization);
     scheduleSave(game.state, true);
     showToast('Игра сброшена.');
+  });
+
+  document.getElementById('categoryTabs')!.addEventListener('click', (event) => {
+    const tab = (event.target as HTMLElement).closest('.cat-tab') as HTMLButtonElement | null;
+    if (!tab || !tab.dataset.category) return;
+    renderer.setActiveTab(tab.dataset.category);
+  });
+
+  document.getElementById('customizationCards')!.addEventListener('click', (event) => {
+    const btn = (event.target as HTMLElement).closest('.customization-buy') as HTMLButtonElement | null;
+    if (!btn || btn.disabled) return;
+    const card = btn.closest('.customization-card') as HTMLElement | null;
+    const id = card?.dataset.id;
+    if (!id) return;
+    const wasOwned = card.classList.contains('owned');
+    if (game.buyCustom(id)) {
+      if (wasOwned) {
+        playClickSound();
+        showToast('Скин экипирован.');
+      } else {
+        playBuySound();
+        showToast('Кастомизация куплена!');
+      }
+      renderer.render(game.state);
+      applyCustomization(game.state.customization);
+    }
   });
 
   let last = performance.now();
